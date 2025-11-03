@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,29 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the orders for the user.
+     */
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Check if user is admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is customer.
+     */
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
     }
 }
